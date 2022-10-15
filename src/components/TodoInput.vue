@@ -6,7 +6,7 @@
 			type="text"
 			name="text"
 			v-model.trim="todo"
-			class="edit"
+			class="input-todo"
 			placeholder="add new todo"
 			ref="newTodo"
 			@keypress.enter="addNewTodo()"
@@ -60,18 +60,14 @@ onMounted(() => {
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
 	box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
-	.edit {
+	.input-todo {
 		position: relative;
 		margin: 0;
 		width: 100%;
 		font-size: 24px;
-		font-family: inherit;
-		font-weight: inherit;
 		line-height: 1.4em;
 		border: 0;
-		color: inherit;
 		padding: 6px;
-		box-sizing: border-box;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
@@ -81,27 +77,26 @@ onMounted(() => {
 	border: none; /* Mobile Safari */
 	opacity: 0;
 	position: absolute;
-}
-.toggle-all + label {
-	width: 60px;
-	height: 34px;
-	font-size: 0;
-	// position: absolute;
-	top: -52px;
-	left: -13px;
-	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg);
-}
-.toggle-all + label:before {
-	content: '❯';
-	font-size: 22px;
-	color: #e6e6e6;
-	padding: 10px 27px 10px 27px;
+	&:checked + label:before {
+		color: #737373;
+	}
+	+ label {
+		width: 60px;
+		height: 34px;
+		font-size: 0;
+		top: -52px;
+		left: -13px;
+		-webkit-transform: rotate(90deg);
+		transform: rotate(90deg);
+		&:before {
+			content: '❯';
+			font-size: 22px;
+			color: #e6e6e6;
+			padding: 10px 27px 10px 27px;
+		}
+	}
 }
 
-.toggle-all:checked + label:before {
-	color: #737373;
-}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
 	.toggle-all {
 		background: none;
