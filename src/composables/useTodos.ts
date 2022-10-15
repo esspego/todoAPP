@@ -28,6 +28,11 @@ const useTodos = () => {
 			const response = await store.dispatch('deleteTodo', id)
 		})
 	}
+	const updateAllToComplete = async (todos: TodoItem[]) => {
+		todos.forEach(async (todo) => {
+			const response = await store.dispatch('updateTodo', todo)
+		})
+	}
 
 	return {
 		todos: computed(() => store.state.todos),
@@ -37,6 +42,7 @@ const useTodos = () => {
 		updateTodo,
 		deleteTodo,
 		removeCompleted,
+		updateAllToComplete,
 	}
 }
 

@@ -2,7 +2,7 @@
 	<div class="todoapp">
 		<h1>todos</h1>
 		<TodoInput />
-		<TodoList v-if="todos.length > 0" />
+		<TodoList />
 	</div>
 </template>
 
@@ -15,7 +15,7 @@ import useTodos from '../composables/useTodos'
 
 const route = useRoute()
 const router = useRouter()
-const { allStatus, todos } = useTodos()
+const { allStatus } = useTodos()
 
 onMounted(() => {
 	let statusActive: string | string[] = route.params.status || 'all'

@@ -1,24 +1,27 @@
 <template>
-	<div class="">
-		<input type="checkbox" class="toggle-all" />
-		<label class=""> </label>
+	<div class="new-todo">
+		<input type="checkbox" class="toggle-all" :checked="isAllChecked" />
+		<label class="" @click="checkAll()"></label>
 		<input
 			type="text"
 			name="text"
 			v-model="todo"
-			class="new-todo"
+			class="edit"
 			placeholder="add new todo"
-			@keypress.enter.prevent="addNewTodo()"
+			ref="newTodo"
+			@keypress.enter="addNewTodo()"
 		/>
 	</div>
 </template>
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
+import { computed, onMounted } from '@vue/runtime-core'
 import useTodos from '../composables/useTodos'
 import TodoItem from '../interfaces/todoInterface'
-const { todos, addTodo } = useTodos()
+const { todos, addTodo, updateAllToComplete } = useTodos()
 
 const todo = ref('')
+const newTodo = ref()
 
 const addNewTodo = () => {
 	if (todo.value.length === 0) return
@@ -30,31 +33,48 @@ const addNewTodo = () => {
 	addTodo(newTodo)
 	todo.value = ''
 }
+const checkAll = () => {
+	let updatedTodos: TodoItem[] = todos.value
+		.filter((todo) => todo.status !== 'completed')
+		.map((todo) => {
+			todo.status = 'completed'
+			return todo
+		})
+	updateAllToComplete(updatedTodos)
+}
+
+const isAllChecked = computed(() => {
+	return (
+		todos.value.every((item) => item.status === 'completed') &&
+		todos.value.length > 0
+	)
+})
+onMounted(() => {
+	newTodo.value.focus()
+})
 </script>
 <style scoped lang="scss">
 .new-todo {
-	padding: 16px 16px 16px 60px;
+	display: flex;
+	padding: 16px 16px 16px 0px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
 	box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
-}
-.new-todo,
-.edit {
-	position: relative;
-	margin: 0;
-	width: 100%;
-	font-size: 24px;
-	font-family: inherit;
-	font-weight: inherit;
-	line-height: 1.4em;
-	border: 0;
-	color: inherit;
-	padding: 6px;
-	border: 1px solid #999;
-	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-	box-sizing: border-box;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	.edit {
+		position: relative;
+		margin: 0;
+		width: 100%;
+		font-size: 24px;
+		font-family: inherit;
+		font-weight: inherit;
+		line-height: 1.4em;
+		border: 0;
+		color: inherit;
+		padding: 6px;
+		box-sizing: border-box;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
 }
 .toggle-all {
 	text-align: center;
@@ -66,7 +86,7 @@ const addNewTodo = () => {
 	width: 60px;
 	height: 34px;
 	font-size: 0;
-	position: absolute;
+	// position: absolute;
 	top: -52px;
 	left: -13px;
 	-webkit-transform: rotate(90deg);

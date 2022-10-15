@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="main" v-if="todos.length > 0">
 		<div class="todo-list">
 			<li
 				v-for="todo in todosFiltered"
@@ -10,7 +10,7 @@
 					view: todoEditing.id !== todo.id,
 				}"
 			>
-				<div v-if="todoEditing.id !== todo.id">
+				<div v-show="todoEditing.id !== todo.id">
 					<input
 						type="checkbox"
 						:checked="todo.status === 'completed'"
@@ -27,9 +27,9 @@
 					></button>
 				</div>
 				<input
-					v-else
 					type="text"
 					class="edit"
+					:id="todo.id.toString()"
 					v-model="todoEditing.text"
 					@blur="changeText"
 					@keypress.enter="changeText"
@@ -70,6 +70,7 @@ const editTodo = (todo: TodoItem) => {
 	todoEditing.value = { ...todo }
 }
 const changeText = async () => {
+	if (!todoEditing.value.id) return
 	if (todoEditing.value.text.length > 0) {
 		await updateTodo(todoEditing.value)
 	} else {
