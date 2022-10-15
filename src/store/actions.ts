@@ -1,7 +1,8 @@
+import { Commit } from 'vuex'
 import TodoItem from '../interfaces/todoInterface'
 const API_URL = import.meta.env.VITE_API_URL
 
-export const getTodo = async ({ commit }) => {
+export const getTodo = async ({ commit }: { commit: Commit }) => {
 	let response = await fetch(`${API_URL}/todos`)
 	if (response.status === 200) {
 		response = await response.json()
@@ -9,7 +10,10 @@ export const getTodo = async ({ commit }) => {
 	}
 	return response
 }
-export const addTodo = async ({ commit }, todo: TodoItem) => {
+export const addTodo = async (
+	{ commit }: { commit: Commit },
+	todo: TodoItem
+) => {
 	let response = await fetch(`${API_URL}/todos`, {
 		headers: {
 			'Content-Type': 'application/json',
@@ -23,7 +27,10 @@ export const addTodo = async ({ commit }, todo: TodoItem) => {
 	}
 	return response
 }
-export const updateTodo = async ({ commit }, todo: TodoItem) => {
+export const updateTodo = async (
+	{ commit }: { commit: Commit },
+	todo: TodoItem
+) => {
 	let response = await fetch(`${API_URL}/todos/${todo.id}`, {
 		headers: {
 			'Content-Type': 'application/json',
@@ -37,7 +44,10 @@ export const updateTodo = async ({ commit }, todo: TodoItem) => {
 	}
 	return response
 }
-export const deleteTodo = async ({ commit }, id: number) => {
+export const deleteTodo = async (
+	{ commit }: { commit: Commit },
+	id: number
+) => {
 	let response = await fetch(`${API_URL}/todos/${id}`, {
 		headers: {
 			'Content-Type': 'application/json',

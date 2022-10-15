@@ -40,12 +40,10 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { computed, ComputedRef, Ref, ref } from '@vue/runtime-core'
-import { useRoute } from 'vue-router'
+import { Ref, ref } from '@vue/runtime-core'
 import useTodos from '../composables/useTodos'
 import TodoItem from '../interfaces/todoInterface'
 import ActionFooter from './ActionFooter.vue'
-const route = useRoute()
 const { todos, todosFiltered, getTodos, updateTodo, deleteTodo } = useTodos()
 
 let todoEditing: Ref<TodoItem> = ref({

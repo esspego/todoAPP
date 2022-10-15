@@ -1,7 +1,7 @@
 <template>
 	<div class="new-todo">
 		<input type="checkbox" class="toggle-all" :checked="isAllChecked" />
-		<label class="" @click="checkAll()"></label>
+		<label class="" @click="checkAll"></label>
 		<input
 			type="text"
 			name="text"
@@ -9,12 +9,12 @@
 			class="input-todo"
 			placeholder="add new todo"
 			ref="newTodo"
-			@keypress.enter="addNewTodo()"
+			@keypress.enter="addNewTodo"
 		/>
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref } from '@vue/reactivity'
+import { ComputedRef, ref } from '@vue/reactivity'
 import { computed, onMounted } from '@vue/runtime-core'
 import useTodos from '../composables/useTodos'
 import TodoItem from '../interfaces/todoInterface'
@@ -35,18 +35,19 @@ const addNewTodo = () => {
 }
 const checkAll = () => {
 	let updatedTodos: TodoItem[] = todosFiltered.value
-		.filter((todo) => todo.status !== 'completed')
-		.map((todo) => {
+		.filter((todo: TodoItem) => todo.status !== 'completed')
+		.map((todo: TodoItem) => {
 			todo.status = 'completed'
 			return todo
 		})
 	updateAllToComplete(updatedTodos)
 }
 
-const isAllChecked = computed(() => {
+const isAllChecked: ComputedRef<boolean> = computed(() => {
 	return (
-		todosFiltered.value.every((todo) => todo.status === 'completed') &&
-		todosFiltered.value.length > 0
+		todosFiltered.value.every(
+			(todo: TodoItem) => todo.status === 'completed'
+		) && todosFiltered.value.length > 0
 	)
 })
 onMounted(() => {

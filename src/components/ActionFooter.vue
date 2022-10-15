@@ -27,17 +27,22 @@
 import { useRoute, useRouter } from 'vue-router'
 import useTodos from '../composables/useTodos'
 import { computed, ComputedRef } from 'vue'
+import TodoItem from '../interfaces/todoInterface'
 
 const { todosFiltered, allStatus, activeFilter, removeCompleted, setFilter } =
 	useTodos()
 const route = useRoute()
 const router = useRouter()
 
-const todosActiveQuantity = computed(() => {
-	return todosFiltered.value.filter((todo) => todo.status === 'active').length
+const todosActiveQuantity: ComputedRef<number> = computed(() => {
+	return todosFiltered.value.filter(
+		(todo: TodoItem) => todo.status === 'active'
+	).length
 })
-const hasCompletedTodos = computed(() => {
-	return todosFiltered.value.find((todo) => todo.status === 'completed')
+const hasCompletedTodos: ComputedRef<boolean> = computed(() => {
+	return todosFiltered.value.find(
+		(todo: TodoItem) => todo.status === 'completed'
+	)
 })
 
 const filterTodos = (status: string) => {
@@ -46,8 +51,8 @@ const filterTodos = (status: string) => {
 }
 const clearCompleted = () => {
 	let completedTodo = todosFiltered.value
-		.filter((todo) => todo.status === 'completed')
-		.map((todo) => todo.id)
+		.filter((todo: TodoItem) => todo.status === 'completed')
+		.map((todo: TodoItem) => todo.id)
 	removeCompleted(completedTodo)
 }
 </script>
