@@ -33,9 +33,14 @@ const useTodos = () => {
 			const response = await store.dispatch('updateTodo', todo)
 		})
 	}
+	const setFilter = async (filter: string) => {
+		store.commit('setActiveFilter', filter)
+	}
 
 	return {
 		todos: computed(() => store.state.todos),
+		activeFilter: computed(() => store.state.activeFilter),
+		todosFiltered: computed(() => store.getters.todosFiltered),
 		allStatus,
 		getTodos,
 		addTodo,
@@ -43,6 +48,7 @@ const useTodos = () => {
 		deleteTodo,
 		removeCompleted,
 		updateAllToComplete,
+		setFilter,
 	}
 }
 

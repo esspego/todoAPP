@@ -5,7 +5,7 @@
 		<input
 			type="text"
 			name="text"
-			v-model="todo"
+			v-model.trim="todo"
 			class="edit"
 			placeholder="add new todo"
 			ref="newTodo"
@@ -18,7 +18,7 @@ import { ref } from '@vue/reactivity'
 import { computed, onMounted } from '@vue/runtime-core'
 import useTodos from '../composables/useTodos'
 import TodoItem from '../interfaces/todoInterface'
-const { todos, addTodo, updateAllToComplete } = useTodos()
+const { todosFiltered, addTodo, updateAllToComplete } = useTodos()
 
 const todo = ref('')
 const newTodo = ref()
@@ -34,7 +34,7 @@ const addNewTodo = () => {
 	todo.value = ''
 }
 const checkAll = () => {
-	let updatedTodos: TodoItem[] = todos.value
+	let updatedTodos: TodoItem[] = todosFiltered.value
 		.filter((todo) => todo.status !== 'completed')
 		.map((todo) => {
 			todo.status = 'completed'
@@ -45,8 +45,8 @@ const checkAll = () => {
 
 const isAllChecked = computed(() => {
 	return (
-		todos.value.every((item) => item.status === 'completed') &&
-		todos.value.length > 0
+		todosFiltered.value.every((todo) => todo.status === 'completed') &&
+		todosFiltered.value.length > 0
 	)
 })
 onMounted(() => {

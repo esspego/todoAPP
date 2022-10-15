@@ -47,18 +47,12 @@ import useTodos from '../composables/useTodos'
 import TodoItem from '../interfaces/todoInterface'
 import ActionFooter from './ActionFooter.vue'
 const route = useRoute()
-const { todos, getTodos, updateTodo, deleteTodo } = useTodos()
+const { todos, todosFiltered, getTodos, updateTodo, deleteTodo } = useTodos()
 
 let todoEditing: Ref<TodoItem> = ref({
 	id: NaN,
 	text: '',
 	status: 'active',
-})
-
-const todosFiltered: ComputedRef<TodoItem[]> = computed(() => {
-	const activeFilter: string | string[] = route.params.status || 'all'
-	if (activeFilter === 'all') return todos.value
-	return todos.value.filter((todo) => todo.status === activeFilter)
 })
 
 const changeStatus = (todo: TodoItem) => {

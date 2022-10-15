@@ -1,8 +1,8 @@
 <template>
 	<div class="footer">
 		<span class="todo-count">
-			<strong>{{ todosActive.length }}</strong>
-			Item<span v-if="todosActive.length > 1 || todosActive.length === 0"
+			<strong>{{ todosActiveQuantity }}</strong>
+			Item<span v-if="todosActiveQuantity > 1 || todosActiveQuantity === 0"
 				>s</span
 			>
 			left
@@ -28,26 +28,24 @@ import { useRoute, useRouter } from 'vue-router'
 import useTodos from '../composables/useTodos'
 import { computed, ComputedRef } from 'vue'
 
-const { todos, allStatus, removeCompleted } = useTodos()
+const { todosFiltered, allStatus, activeFilter, removeCompleted, setFilter } =
+	useTodos()
 const route = useRoute()
 const router = useRouter()
 
-const activeFilter: ComputedRef<string | string[]> = computed(
-	() => route.params.status || 'all'
-)
-
-const todosActive = computed(() => {
-	return todos.value.filter((todo) => todo.status === 'active')
+const todosActiveQuantity = computed(() => {
+	return todosFiltered.value.filter((todo) => todo.status === 'active').length
 })
 const hasCompletedTodos = computed(() => {
-	return todos.value.find((todo) => todo.status === 'completed')
+	return todosFiltered.value.find((todo) => todo.status === 'completed')
 })
 
 const filterTodos = (status: string) => {
+	setFilter(status)
 	router.replace({ name: 'TodoListByStatus', params: { status } })
 }
 const clearCompleted = () => {
-	let completedTodo = todos.value
+	let completedTodo = todosFiltered.value
 		.filter((todo) => todo.status === 'completed')
 		.map((todo) => todo.id)
 	removeCompleted(completedTodo)

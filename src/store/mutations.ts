@@ -20,3 +20,6 @@ export const addTodo = (state: State, todo: TodoItem) => {
 	newTodos.push(todo)
 	setTodos(state, newTodos)
 }
+export const setActiveFilter = (state: State, filter: string) => {
+	state.activeFilter = filter
+}

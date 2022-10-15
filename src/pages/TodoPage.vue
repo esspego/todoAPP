@@ -15,12 +15,14 @@ import useTodos from '../composables/useTodos'
 
 const route = useRoute()
 const router = useRouter()
-const { allStatus } = useTodos()
+const { allStatus, setFilter } = useTodos()
 
 onMounted(() => {
-	let statusActive: string | string[] = route.params.status || 'all'
+	let statusActive: string = route.params.status.toString() || 'all'
 	if (!allStatus.includes(statusActive)) {
 		router.replace({ name: 'TodoList', params: { status: 'all' } })
+	} else {
+		setFilter(statusActive)
 	}
 })
 </script>
