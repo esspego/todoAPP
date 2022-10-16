@@ -2,7 +2,7 @@
 
 Todo is a project to manage tasks.
 
-Using Vue 3, Typescript, Pinia (and Vite).
+Using Vue 3, Typescript, Pinia and Vite.
 
 ## Build Setup
 
