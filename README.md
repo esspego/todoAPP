@@ -6,6 +6,8 @@ Using Vue 3, Typescript, Pinia and Vite.
 
 ## Build Setup
 
+Create an .env file and paste the content of the .env.example file
+
 ```bash
 # install dependencies
 $ npm install
